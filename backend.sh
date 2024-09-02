@@ -63,3 +63,25 @@ cd /app
 rm -rf /app/* # remove the existing file indside the /app folder
 unzip /tmp/backend.zip &>>$LOG_FILE
 VALIDATE $? "Extracting backend application code"
+
+npm install &>>$LOG_FILE
+VALIDATE $? "Installing Node.JS packages"
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
+
+# load the data before running the backend
+dnf install mysql -y
+VALIDATE $? "MySQL Client installation"
+
+mysql -h mysql.iamdevops.fun -uroot -pExpenseApp@1 < /app/schema/backend.sql
+VALIDATE $? "Database schema created"
+
+systemctl daemon-reload &>>$LOG_FILE
+VALIDATE $? "Daemon reload"
+
+systemctl enable backend &>>$LOG_FILE
+VALIDATE $? "backend enable"
+
+systemctl restart backend &>>$LOG_FILE
+VALIDATE $? "backend restart"
+
+
