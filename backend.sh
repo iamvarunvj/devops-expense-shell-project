@@ -46,7 +46,7 @@ id expense&>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     echo "user expense is not exisits.. creating user expense"&>>$LOG_FILE
-    useradd expense&>>$LOG_FILE
+    useradd expense &>>$LOG_FILE
     VALIDATE $? "Adding expense user...$G CREATING $N"
 else
     echo -e "user expense is present already...$Y SKIPPING $N"
@@ -57,8 +57,8 @@ mkdir /app
 VALIDATE $? "Creating /app folder"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
-VALIDATE $? "Downloading backend application code"
+VALIDATE $? "Downloading backend application code" &>>$LOG_FILE
 
 cd /app
-unzip /tmp/backend.zip
+unzip /tmp/backend.zip &>>$LOG_FILE
 VALIDATE $? "Extracting backend application code"
