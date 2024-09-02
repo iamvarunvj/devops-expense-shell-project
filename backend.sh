@@ -69,10 +69,10 @@ VALIDATE $? "Installing Node.JS packages"
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
 
 # load the data before running the backend
-dnf install mysql -y
+dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "MySQL Client installation"
 
-mysql -h mysql.iamdevops.fun -uroot -pExpenseApp@1 < /app/schema/backend.sql
+mysql -h mysql.iamdevops.fun -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
 VALIDATE $? "Database schema created"
 
 systemctl daemon-reload &>>$LOG_FILE
