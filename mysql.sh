@@ -34,7 +34,7 @@ echo "Script started executing at: $(date)" | tee -a $LOG_FILE
 
 CHECK_ROOT
 
-dnf installed mysql-server
+dnf list installed mysql-server &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     echo -e "mysql-server not installed going to install it" | tee -a $LOG_FILE
